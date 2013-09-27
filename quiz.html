@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Todo</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+  <div id="quiz-container">
+    
+  </div>
+    
+  <script type="text/javascript">
+    var allQuestions = [
+          { 
+            question: "Inside which HTML element do we put the JavaScript?", 
+            choices: ["&ltscript&gt", "&ltscripting&gt", "&ltjavascript&gt", "&ltjs&gt"], 
+            correctAnswer: 0
+          },
+          { 
+            question: "Where is the correct place to insert a JavaScript?", 
+            choices: ["The &lthead&gt section","Both the &lthead&gt section and the &ltbody&gt section are correct","The &ltbody&gt section"], 
+            correctAnswer: 1
+          },
+          { 
+            question: "What is the correct syntax for referring to an external script called \"xxx.js\"?", 
+            choices: ["&ltscript src=\"xxx.js\"&gt","&ltscript href=\"xxx.js\"&gt","&ltscript name=\"xxx.js\"&gt"], 
+            correctAnswer: 0
+          },
+          { 
+            question: "How do you create a function in JavaScript?", 
+            choices: ["function=myFunction()","function myFunction()","function:myFunction()"], 
+            correctAnswer: 1
+          }
+        ];
+
+    var currentQuestionIndex = 0;
+    var currentQuestion = allQuestions[currentQuestionIndex];
+    var score = 0;
+
+    showQuestion(currentQuestion);
+    
+    $(document).on("click", ".next-question", function() {
+      
+      var answer = $("#quiz-container input[type=radio]:checked").val()
+      if (answer == currentQuestion.correctAnswer) {
+        score += 1;
+      }
+
+      currentQuestionIndex += 1;
+      if (currentQuestionIndex == allQuestions.length) {
+        showResult();
+      } else {
+        currentQuestion = allQuestions[currentQuestionIndex];
+        showQuestion(currentQuestion);
+      }
+    });
+
+    function showQuestion(question) {
+      var html = "<h4>" + question.question + "</h4>";
+      question.choices.forEach(function(choice, index) {
+        html += "<p><input type='radio' value='" + index + "'>" + choice + "</p>";
+      });
+
+      html += "<button class='next-question'>Next</button>";
+      $("#quiz-container").html(html);
+    }
+
+    function showResult() {
+      $("#quiz-container").html("Result: " + score + " out of " + allQuestions.length);
+    }
+  </script> 
+</body>
+</html
